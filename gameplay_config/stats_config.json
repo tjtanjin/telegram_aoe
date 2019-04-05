@@ -1,0 +1,33 @@
+{
+	"castle": {
+		"current_castle_health": "2000",
+		"max_castle_health": "2000",
+		"repair_1": "100",
+		"repair_2": "200",
+		"repair_3": "300"
+	},
+	"gold": {
+		"amount": "900"
+	},
+	"soldier": {
+		"price": "20",
+		"num": "30",
+		"attack": "5",
+		"armor": "5",
+		"desc": "A light infantry unit with weak attack"
+	},
+	"warrior": {
+		"price": "50",
+		"num": "15",
+		"attack": "10",
+		"armor": "7",
+		"desc": "A toughened soldier with moderate attack"
+	},
+	"knight": {
+		"price": "100",
+		"num": "5",
+		"attack": "20",
+		"armor": "10",
+		"desc": "A heavily armored unit with strong attack"
+	}
+}
