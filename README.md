@@ -25,3 +25,5 @@ The gameplay management file contains the gameplay logic. The functions here are
 The gameplay response file contains the function that take in every button pressed by the user in the chat with the bot such as attack, repair or hire. The functions here process the callback data from the button and decide on the most appropriate action to take based on the user choice.
 ## Upcoming Work
 As mentioned earlier, the bot is only able to run one game at a time which defeats the purpose of putting it on telegram as a multiplayer game. I have a rough idea of how this might be fixed but am still exploring possible options. If anyone has suggestions or inputs, I'll appreciate if you can reach out to me. Thank you for reading!
+
+Update: Redis db has been used to hold game data so multiple matches can go on at once! However, telegram are handling the requests individually resulting in slow response times. Will be visiting the documentation to see what can be done!
