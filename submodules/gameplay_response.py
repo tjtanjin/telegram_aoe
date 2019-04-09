@@ -1,7 +1,7 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
-import submodules.user_management as um
-import submodules.gameplay_management as gm
-import submodules.miscellaneous as mc
+from submodules import user_management as um
+from submodules import gameplay_management as gm
+from submodules import miscellaneous as mc
 import os, time, sys, json, re
 os.chdir(os.path.realpath(sys.path[0]))
 #load config file containing default game stats
@@ -28,7 +28,7 @@ def launch_attack(bot, update):
     um.switch_user_status(user1, user2, "3", "2")
     bot.deleteMessage(chat_id=user1["userid"], message_id=update.callback_query.message.message_id)
     bot.send_message(chat_id=user1["userid"], text="You chose to attack!")
-    gm.id_to_player(bot, user1["userid"], "1")
+    gm.attack(bot, user1["username"], user2["username"])
     return None
 
 def repair(bot, update):
@@ -50,20 +50,20 @@ def repair(bot, update):
     #variable to control actions
     approved_action = []
     #list of possible actions to take depending on button pressed (callback_query.data)
-    if "-2-" in data and gm.check_gold(bot, user1["userid"], int(config['castle']['repair_1'])):
+    if "-2-" in data and gm.check_gold(bot, user1["username"], int(config['castle']['repair_1'])):
         reply_markup = mc.show_user_options(user1["username"], user2["username"], 5, ["100 Gold", "200 Gold", "300 Gold", "Flee", "Back"], ["2.1", "2.2", "2.3", "flee", "reshow_main"])
         bot.editMessageText(chat_id=user1["userid"], message_id=update.callback_query.message.message_id, text="How much do you wish to repair? (1 Gold repairs 1 Health)", reply_markup=reply_markup)
-    elif "-2.1-" in data and gm.check_gold(bot, user1["userid"], int(config['castle']['repair_1'])):
+    elif "-2.1-" in data and gm.check_gold(bot, user1["username"], int(config['castle']['repair_1'])):
         approved_action = ["-2.1-", "You chose to repair <b>100</b> Health with <b>100</b> Gold!"]
-    elif "-2.2-" in data and gm.check_gold(bot, user1["userid"], int(config['castle']['repair_2'])):
+    elif "-2.2-" in data and gm.check_gold(bot, user1["username"], int(config['castle']['repair_2'])):
         approved_action = ["-2.2-", "You chose to repair <b>200</b> Health with <b>200</b> Gold!"]
-    elif "-2.3-" in data and gm.check_gold(bot, user1["userid"], int(config['castle']['repair_3'])):
+    elif "-2.3-" in data and gm.check_gold(bot, user1["username"], int(config['castle']['repair_3'])):
         approved_action = ["-2.3-", "You chose to repair <b>300</b> Health with <b>300</b> Gold!"]
     if approved_action != []:
         um.switch_user_status(user1, user2, "3", "2")
         bot.deleteMessage(chat_id=user1["userid"], message_id=update.callback_query.message.message_id)
         bot.send_message(chat_id=user1["userid"], text=approved_action[1], parse_mode=ParseMode.HTML)
-        gm.id_to_player(bot, user1["userid"], approved_action[0][1:4])
+        gm.repair(bot, user1["username"], user2["username"], approved_action[0][1:4])
     elif "-2-" in data:
         pass
     else:
@@ -89,41 +89,41 @@ def hire(bot, update):
     #variable to control actions
     approved_action = []
     #list of possible actions to take depending on button pressed (callback_query.data)
-    if "-3-" in data and gm.check_gold(bot, user1["userid"], 5*int(config['soldier']['price'])):
+    if "-3-" in data and gm.check_gold(bot, user1["username"], 5*int(config['soldier']['price'])):
         reply_markup = mc.show_user_options(user1["username"], user2["username"], 5, ["Soldiers", "Warriors", "Knights", "Flee", "Back"], ["3.1", "3.2", "3.3", "flee", "reshow_main"])
         bot.editMessageText(chat_id=user1["userid"], message_id=update.callback_query.message.message_id, text="Which unit do you wish to hire?", reply_markup=reply_markup)
-    elif "-3.1-" in data and gm.check_gold(bot, user1["userid"], 5*int(config['soldier']['price'])):
+    elif "-3.1-" in data and gm.check_gold(bot, user1["username"], 5*int(config['soldier']['price'])):
         reply_markup = mc.show_user_options(user1["username"], user2["username"], 5, ["5", "10", "15", "Flee", "Back"], ["3.1.1", "3.1.2", "3.1.3", "flee", "3"])
         bot.editMessageText(chat_id=user1["userid"], message_id=update.callback_query.message.message_id, text="How many Soldiers do you wish to hire? (20 Gold, 5 Attack Damage each)", reply_markup=reply_markup)
-    elif "-3.2-" in data and gm.check_gold(bot, user1["userid"], 5*int(config['warrior']['price'])):
+    elif "-3.2-" in data and gm.check_gold(bot, user1["username"], 5*int(config['warrior']['price'])):
         reply_markup = mc.show_user_options(user1["username"], user2["username"], 5, ["5", "10", "15", "Flee", "Back"], ["3.2.1", "3.2.2", "3.2.3", "flee", "3"])
         bot.editMessageText(chat_id=user1["userid"], message_id=update.callback_query.message.message_id, text="How many Warriors do you wish to hire? (50 Gold, 10 Attack Damage each)", reply_markup=reply_markup)
-    elif "-3.3-" in data and gm.check_gold(bot, user1["userid"], 5*int(config['knight']['price'])):
+    elif "-3.3-" in data and gm.check_gold(bot, user1["username"], 5*int(config['knight']['price'])):
         reply_markup = mc.show_user_options(user1["username"], user2["username"], 5, ["5", "10", "15", "Flee", "Back"], ["3.3.1", "3.3.2", "3.3.3", "flee", "3"])
         bot.editMessageText(chat_id=user1["userid"], message_id=update.callback_query.message.message_id, text="How many Knights do you wish to hire? (100 Gold, 20 Attack Damage each)", reply_markup=reply_markup)
-    elif "-3.1.1-" in data and gm.check_gold(bot, user1["userid"], 5*int(config['soldier']['price'])):
+    elif "-3.1.1-" in data and gm.check_gold(bot, user1["username"], 5*int(config['soldier']['price'])):
         approved_action = ["-3.1.1-", "You chose to hire <b>5</b> Soldiers!"]
-    elif "-3.1.2-" in data and gm.check_gold(bot, user1["userid"], 10*int(config['soldier']['price'])):
+    elif "-3.1.2-" in data and gm.check_gold(bot, user1["username"], 10*int(config['soldier']['price'])):
         approved_action = ["-3.1.2-", "You chose to hire <b>10</b> Soldiers!"]
-    elif "-3.1.3-" in data and gm.check_gold(bot, user1["userid"], 15*int(config['soldier']['price'])):
+    elif "-3.1.3-" in data and gm.check_gold(bot, user1["username"], 15*int(config['soldier']['price'])):
         approved_action = ["-3.1.3-", "You chose to hire <b>15</b> Soldiers!"]
-    elif "-3.2.1-" in data and gm.check_gold(bot, user1["userid"], 5*int(config['warrior']['price'])):
+    elif "-3.2.1-" in data and gm.check_gold(bot, user1["username"], 5*int(config['warrior']['price'])):
         approved_action = ["-3.2.1-", "You chose to hire <b>5</b> Warriors!"]
-    elif "-3.2.2-" in data and gm.check_gold(bot, user1["userid"], 10*int(config['warrior']['price'])):
+    elif "-3.2.2-" in data and gm.check_gold(bot, user1["username"], 10*int(config['warrior']['price'])):
         approved_action = ["-3.2.2-", "You chose to hire <b>10</b> Warriors!"]
-    elif "-3.2.3-" in data and gm.check_gold(bot, user1["userid"], 15*int(config['warrior']['price'])):
+    elif "-3.2.3-" in data and gm.check_gold(bot, user1["username"], 15*int(config['warrior']['price'])):
         approved_action = ["-3.2.3-", "You chose to hire <b>15</b> Warriors!"]
-    elif "-3.3.1-" in data and gm.check_gold(bot, user1["userid"], 5*int(config['knight']['price'])):
+    elif "-3.3.1-" in data and gm.check_gold(bot, user1["username"], 5*int(config['knight']['price'])):
         approved_action = ["-3.3.1-", "You chose to hire <b>5</b> Knights!"]
-    elif "-3.3.2-" in data and gm.check_gold(bot, user1["userid"], 10*int(config['knight']['price'])):
+    elif "-3.3.2-" in data and gm.check_gold(bot, user1["username"], 10*int(config['knight']['price'])):
         approved_action = ["-3.3.2-", "You chose to hire <b>10</b> Knights!"]
-    elif "-3.3.3-" in data and gm.check_gold(bot, user1["userid"], 15*int(config['knight']['price'])):
+    elif "-3.3.3-" in data and gm.check_gold(bot, user1["username"], 15*int(config['knight']['price'])):
         approved_action = ["-3.3.3-", "You chose to hire <b>15</b> Knights!"]
     if approved_action != []:
         um.switch_user_status(user1, user2, "3", "2")
         bot.deleteMessage(chat_id=user1["userid"], message_id=update.callback_query.message.message_id)
         bot.send_message(chat_id=user1["userid"], text=approved_action[1], parse_mode=ParseMode.HTML)
-        gm.id_to_player(bot, user1["userid"], approved_action[0][1:6])
+        gm.hire(bot, user1["username"], user2["username"], approved_action[0][1:6])
     elif "-3-" in data or "-3.1-" in data or "-3.2" in data or "-3.3-" in data:
         pass
     else:
@@ -147,7 +147,7 @@ def flee(bot, update):
     if user1["user_status"] != "2":
         return None
     bot.deleteMessage(chat_id=user1["userid"], message_id=update.callback_query.message.message_id)
-    gm.id_to_player(bot, user1["userid"], "0")
+    gm.flee(bot, username1, username2)
     return None
 
 def reshow_main_options(bot, update):

@@ -1,7 +1,7 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
-import submodules.user_management as um
-import submodules.gameplay_management as gm
-import submodules.miscellaneous as mc
+from submodules import user_management as um
+from submodules import gameplay_management as gm
+from submodules import miscellaneous as mc
 import threading
 
 def welcome_user(bot, update):

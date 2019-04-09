@@ -1,5 +1,5 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
-import submodules.gameplay_management as gm
+from submodules import gameplay_management as gm
 import os, time, json, random
 #load config file containing default game stats (for use in auto response for AFK players)
 with open("./gameplay_config/stats_config.json", "r") as config_file:
@@ -159,10 +159,10 @@ def choice_timeout_user(bot, username1, username2, message_id, minutes):
             save_user_data([user1, user2])
             bot.deleteMessage(chat_id=user1["userid"], message_id=message_id)
             bot.send_message(chat_id=user1["userid"], text="Time's up! An action was randomly chosen for you.")
-            auto_action(bot, user1)
+            auto_action(bot, user1, user2)
     return None
 
-def auto_action(bot, user1):
+def auto_action(bot, user1, user2):
     """
     Function to automatically choose an action for AFK users.
     Args:
@@ -170,30 +170,30 @@ def auto_action(bot, user1):
         user1: user that is AFK
     """
     choice = random.randint(0,22)
-    if choice >= 0 and choice <= 1 and gm.check_gold(bot, user1["userid"], int(config['castle']['repair_1'])):
-        gm.id_to_player(bot, user1["userid"], "2.1")
-    elif choice >= 2 and choice <= 3 and gm.check_gold(bot, user1["userid"], int(config['castle']['repair_2'])):
-        gm.id_to_player(bot, user1["userid"], "2.2")
-    elif choice >= 4 and choice <= 5 and gm.check_gold(bot, user1["userid"], int(config['castle']['repair_3'])):
-        gm.id_to_player(bot, user1["userid"], "2.3")
-    elif choice >= 6 and choice <= 7 and gm.check_gold(bot, user1["userid"], 5*int(config['soldier']['price'])):
-        gm.id_to_player(bot, user1["userid"], "3.1.1")
-    elif choice == 8 and gm.check_gold(bot, user1["userid"], 10*int(config['soldier']['price'])):
-        gm.id_to_player(bot, user1["userid"], "3.1.2")
-    elif choice == 9 and gm.check_gold(bot, user1["userid"], 15*int(config['soldier']['price'])):
-        gm.id_to_player(bot, user1["userid"], "3.1.3")
-    elif choice >= 10 and choice <= 11 and gm.check_gold(bot, user1["userid"], 5*int(config['warrior']['price'])):
-        gm.id_to_player(bot, user1["userid"], "3.2.1")
-    elif choice == 12 and gm.check_gold(bot, user1["userid"], 10*int(config['warrior']['price'])):
-        gm.id_to_player(bot, user1["userid"], "3.2.2")
-    elif choice == 13 and gm.check_gold(bot, user1["userid"], 15*int(config['warrior']['price'])):
-        gm.id_to_player(bot, user1["userid"], "3.2.3")
-    elif choice >= 14 and choice <= 15 and gm.check_gold(bot, user1["userid"], 5*int(config['knight']['price'])):
-        gm.id_to_player(bot, user1["userid"], "3.3.1")
-    elif choice == 16 and gm.check_gold(bot, user1["userid"], 10*int(config['knight']['price'])):
-        gm.id_to_player(bot, user1["userid"], "3.3.2")
-    elif choice == 17 and gm.check_gold(bot, user1["userid"], 15*int(config['knight']['price'])):
-        gm.id_to_player(bot, user1["userid"], "3.3.3")
+    if choice >= 0 and choice <= 1 and gm.check_gold(bot, user1["username"], int(config['castle']['repair_1'])):
+        gm.repair(bot, user1["username"], user2["username"], "2.1")
+    elif choice >= 2 and choice <= 3 and gm.check_gold(bot, user1["username"], int(config['castle']['repair_2'])):
+        gm.repair(bot, user1["username"], user2["username"], "2.2")
+    elif choice >= 4 and choice <= 5 and gm.check_gold(bot, user1["username"], int(config['castle']['repair_3'])):
+        gm.repair(bot, user1["username"], user2["username"], "2.3")
+    elif choice >= 6 and choice <= 7 and gm.check_gold(bot, user1["username"], 5*int(config['soldier']['price'])):
+        gm.hire(bot, user1["username"], user2["username"], "3.1.1")
+    elif choice == 8 and gm.check_gold(bot, user1["username"], 10*int(config['soldier']['price'])):
+        gm.hire(bot, user1["username"], user2["username"], "3.1.2")
+    elif choice == 9 and gm.check_gold(bot, user1["username"], 15*int(config['soldier']['price'])):
+        gm.hire(bot, user1["username"], user2["username"], "3.1.3")
+    elif choice >= 10 and choice <= 11 and gm.check_gold(bot, user1["username"], 5*int(config['warrior']['price'])):
+        gm.hire(bot, user1["username"], user2["username"], "3.2.1")
+    elif choice == 12 and gm.check_gold(bot, user1["username"], 10*int(config['warrior']['price'])):
+        gm.hire(bot, user1["username"], user2["username"], "3.2.2")
+    elif choice == 13 and gm.check_gold(bot, user1["username"], 15*int(config['warrior']['price'])):
+        gm.hire(bot, user1["username"], user2["username"], "3.2.3")
+    elif choice >= 14 and choice <= 15 and gm.check_gold(bot, user1["username"], 5*int(config['knight']['price'])):
+        gm.hire(bot, user1["username"], user2["username"], "3.3.1")
+    elif choice == 16 and gm.check_gold(bot, user1["username"], 10*int(config['knight']['price'])):
+        gm.hire(bot, user1["username"], user2["username"], "3.3.2")
+    elif choice == 17 and gm.check_gold(bot, user1["username"], 15*int(config['knight']['price'])):
+        gm.hire(bot, user1["username"], user2["username"], "3.3.3")
     else:
-        gm.id_to_player(bot, user1["userid"], "1")
+        gm.attack(bot, user1["username"], user2["username"])
     return None

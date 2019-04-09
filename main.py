@@ -1,7 +1,7 @@
 from telegram.ext import Updater, CommandHandler, CallbackQueryHandler
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
-import submodules.user_response as ur
-import submodules.gameplay_response as gr
+from submodules import user_response as ur
+from submodules import gameplay_response as gr
 import requests, os, sys, json, re
 os.chdir(os.path.realpath(sys.path[0]))
 
