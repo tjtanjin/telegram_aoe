@@ -147,7 +147,7 @@ def flee(bot, update):
     if user1["user_status"] != "2":
         return None
     bot.deleteMessage(chat_id=user1["userid"], message_id=update.callback_query.message.message_id)
-    gm.flee(bot, username1, username2)
+    gm.flee(bot, user1["username"], user2["username"])
     return None
 
 def reshow_main_options(bot, update):

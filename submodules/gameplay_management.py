@@ -141,10 +141,10 @@ def display(bot, username1, username2, display_status_only=False):
     if display_status_only is True:
         return None
     #if any side's health is 0, game is over
-    if int(cplayer.castle['current_castle_health']) <= 0:
+    if cplayer.castle['current_castle_health'] <= 0:
         gameover(bot, cplayer, nplayer)
         return None
-    if int(nplayer.castle['current_castle_health']) <= 0:
+    if nplayer.castle['current_castle_health'] <= 0:
         gameover(bot, nplayer, cplayer)
         return None
     reply_markup = mc.show_user_options(cplayer.username, nplayer.username, 4, ["Attack", "Repair", "Hire", "Flee"], ["1", "2", "3", "flee"])
@@ -168,8 +168,8 @@ def flee(bot, username1, username2):
     bot.sendDocument(chat_id=nplayer.userid, document="https://media3.giphy.com/media/l2Sqc3POpzkj5r8SQ/giphy.gif?cid=790b76115ca4d58d486d6c6d735969b0", caption="<b>{}</b> has fled the war in defeat!".format(cplayer.civilization), parse_mode=ParseMode.HTML)
     cplayer.castle['current_castle_health'] = 0
     save_game_stats(cplayer, nplayer)
-    display(bot, cplayer, nplayer, display_status_only=True)
-    display(bot, nplayer, cplayer)
+    display(bot, username1, username2, display_status_only=True)
+    display(bot, username2, username1)
     return None
 
 def attack(bot, username1, username2):
