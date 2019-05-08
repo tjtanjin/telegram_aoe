@@ -1,4 +1,5 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
+from telegram.ext.dispatcher import run_async
 from submodules import user_management as um
 from submodules import gameplay_management as gm
 from submodules import miscellaneous as mc
@@ -8,6 +9,7 @@ os.chdir(os.path.realpath(sys.path[0]))
 with open("./gameplay_config/stats_config.json", "r") as config_file:
     config = json.load(config_file)
 
+@run_async
 def launch_attack(bot, update):
     """
     Function that takes in the attack response from user.
@@ -31,6 +33,7 @@ def launch_attack(bot, update):
     gm.attack(bot, user1["username"], user2["username"])
     return None
 
+@run_async
 def repair(bot, update):
     """
     Function that takes in the repair response from user.
@@ -70,6 +73,7 @@ def repair(bot, update):
         bot.send_message(chat_id=user1["userid"], text="You do not have enough gold!")
     return None
 
+@run_async
 def hire(bot, update):
     """
     Function that takes in the hire response from user.
@@ -130,6 +134,7 @@ def hire(bot, update):
         bot.send_message(chat_id=user1["userid"], text="You do not have enough gold!")
     return None
 
+@run_async
 def flee(bot, update):
     """
     Function that takes in the flee response from user.
@@ -150,6 +155,7 @@ def flee(bot, update):
     gm.flee(bot, user1["username"], user2["username"])
     return None
 
+@run_async
 def reshow_main_options(bot, update):
     """
     Function that takes in the back response from user to show the main prompt again.
@@ -170,6 +176,7 @@ def reshow_main_options(bot, update):
     bot.editMessageText(chat_id=user1["userid"], message_id=update.callback_query.message.message_id, text="What will you do?", reply_markup=reply_markup)
     return None
 
+@run_async
 def accept_fight(bot, update):
     """
     Function takes in the yes response from user in accepting a fight.
@@ -194,6 +201,7 @@ def accept_fight(bot, update):
         gm.start(bot, user1["username"], user1["userid"], user2["username"], user2["userid"])
     return None
 
+@run_async
 def decline_fight(bot, update):
     """
     Function that takes in no response from user in declining a fight.
@@ -214,6 +222,7 @@ def decline_fight(bot, update):
         bot.editMessageText(chat_id=user2["userid"], message_id=update.callback_query.message.message_id, text="You declined the request for war from " + user1["username"] + "!")
     return None
 
+@run_async
 def quit(bot, update):
     """
     Function that takes in quit response at end of match.

@@ -1,4 +1,5 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
+from telegram.ext.dispatcher import run_async
 from submodules import user_management as um
 from submodules import miscellaneous as mc
 import random, time, threading, json, redis
@@ -113,6 +114,7 @@ def check_gold(bot, username, gold):
     else:
         return False
 
+@run_async
 def display(bot, username1, username2, display_status_only=False):
     """
     Function that displays and stats and prompt users every turn.
@@ -155,6 +157,7 @@ def display(bot, username1, username2, display_status_only=False):
     save_game_stats(cplayer, nplayer)
     return None
 
+@run_async
 def flee(bot, username1, username2):
     """
     Function that handles user quitting halfway through the battle.
@@ -172,6 +175,7 @@ def flee(bot, username1, username2):
     display(bot, username2, username1)
     return None
 
+@run_async
 def attack(bot, username1, username2):
     """
     Function that handles attack action.
@@ -231,6 +235,7 @@ def attack(bot, username1, username2):
     display(bot, username2, username1)
     return None
 
+@run_async
 def repair(bot, username1, username2, type):
     """
     Function that handles repair action.
@@ -274,6 +279,7 @@ def repair(bot, username1, username2, type):
     display(bot, username2, username1)
     return None
 
+@run_async
 def hire(bot, username1, username2, type):
     """
     Function that handles hire action.
