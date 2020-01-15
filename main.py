@@ -12,6 +12,7 @@ with open("./token/token.json") as token_file:
 def main():
     updater = Updater(token_file["token"])
     dp = updater.dispatcher
+    dp.add_handler(CommandHandler('help',ur.show_help))
     dp.add_handler(CommandHandler('war',ur.welcome_user))
     dp.add_handler(CommandHandler('fight',ur.initiate_fight_user, pass_args=True))
     dp.add_handler(CommandHandler('banish',ur.banish_user, pass_args=True))
