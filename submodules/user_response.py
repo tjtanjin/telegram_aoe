@@ -8,9 +8,9 @@ def show_help(bot, update):
     userid = str(update.message.chat_id)
     bot.send_message(chat_id=userid, text="""Here are the currently available commands:\n
         <b>/war</b> - register your account\n
-        <b>/fight (username)</b> - declare war on another registered user\n
-        <b>/banish (username)</b> - block that annoying user that keeps spamming you\n
-        <b>/unbanish (username)</b> - unblock a banished user\n
+        <b>/fight &lt;username&gt;</b> - declare war on another registered user\n
+        <b>/banish &lt;username&gt;</b> - block that annoying user that keeps spamming you\n
+        <b>/unbanish &lt;username&gt;</b> - unblock a banished user\n
         <b>/help</b> - displays the available commands\n 
 Have ideas and suggestions for this mini project? Head over to the <a href="https://github.com/tjtanjin/telegram_aoe">Project Repository</a>!""", parse_mode=ParseMode.HTML, disable_web_page_preview=True)
 
