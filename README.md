@@ -13,7 +13,7 @@
 * [Others](#others)
 
 ### Introduction
-5 months ago, I picked up python and did my very first personal project, [Age Of Empire] (https://github.com/tjtanjin/age_of_empire), a turn based game on the terminal. Now, 5 months later, I am integrating this game into a telegram bot so that it can be available for play online! The bot is currently live here:
+5 months ago, I picked up python and did my very first personal project, [Age Of Empire](https://github.com/tjtanjin/age_of_empire), a turn based game on the terminal. Now, 5 months later, I am integrating this game into a telegram bot so that it can be available for play online! The bot is currently live here:
 ```
 https://t.me/ageofempire_bot
 ```
