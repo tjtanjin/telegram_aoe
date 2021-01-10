@@ -59,10 +59,17 @@ $ git clone https://github.com/tjtanjin/telegram_aoe.git
 ```
 {"token": "your bot token here"}
 ```
-* Next, create two empty folders (userid & userinfo) in the base directory of the project:
+* You will also need to create two empty folders (userid & userinfo) in the base directory of the project:
 ```
 $ mkdir userid
 $ mkdir userinfo
+```
+* Should you wish, you may manually modify the json file of a user inside the userinfo folder to change a user's group to admin. This would grant the user access to the /reset command that can forcibly pull any players out of their current match.
+* Then, you will need to install redis server with the following commands:
+```
+$ sudo apt update
+$ sudo apt install redis-server
+$ sudo systemctl restart redis.service
 ```
 * Finally, from the base directory of the project, execute the following command and the terminal should print "Running..." if everything has been setup correctly!
 ```
