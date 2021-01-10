@@ -8,7 +8,7 @@ os.chdir(os.path.realpath(sys.path[0]))
 def main():
     print("Running...")
     #open file to read in token
-    with open("./token/token.json") as token_file:
+    with open("./config/token.json") as token_file:
         token = json.load(token_file)["token"]
     updater = Updater(token, use_context=True, workers=4)
     dp = updater.dispatcher

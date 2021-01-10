@@ -55,7 +55,7 @@ The following section will guide you through setting up your own telegram versio
 $ cd /home/user/exampleuser/projects/
 $ git clone https://github.com/tjtanjin/telegram_aoe.git
 ```
-* Following which, create a token folder and within it, create a token.json file, saving the token you received from [BotFather](https://t.me/BotFather) as a value to the key "token" as shown below:
+* Following which, create a config folder and within it, create a token.json file, saving the token you received from [BotFather](https://t.me/BotFather) as a value to the key "token" as shown below:
 ```
 {"token": "your bot token here"}
 ```
