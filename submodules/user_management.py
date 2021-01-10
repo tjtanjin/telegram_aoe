@@ -48,7 +48,7 @@ def save_user_data(users):
         with open("./userinfo/" + user["username"] + ".json", 'w+') as file:
             json.dump(user, file)
 
-def validate_user(bot, update, userid, username, registration=False):
+def validate_user(update, context, userid, username, registration=False):
     """
     Function to validate existing user.
     Args:
@@ -64,20 +64,20 @@ def validate_user(bot, update, userid, username, registration=False):
             user = json.load(file)
     else:
         if registration == False:
-            bot.send_message(chat_id=userid, text="Please register your account with the <b>/war</b> command.", parse_mode=ParseMode.HTML)
+            context.bot.send_message(chat_id=userid, text="Please register your account with the <b>/war</b> command.", parse_mode=ParseMode.HTML)
         if registration == True:
-            bot.send_message(chat_id=userid, text="Welcome to Age of Empires, " + username)
+            context.bot.send_message(chat_id=userid, text="Welcome to Age of Empires, " + username)
         return False
     #make sure current userid match registered userid (prevent users changing username to take over old accounts)
     if user["userid"] == str(userid):
         if registration == True:
-            bot.send_message(chat_id=userid, text="The username <b>" + username + "</b> is already registered!", parse_mode=ParseMode.HTML)
+            context.bot.send_message(chat_id=userid, text="The username <b>" + username + "</b> is already registered!", parse_mode=ParseMode.HTML)
         return True
     else:
         if registration == False:
-            bot.send_message(chat_id=userid, text="Please register your account with the <b>/war</b> command.", parse_mode=ParseMode.HTML)
+            context.bot.send_message(chat_id=userid, text="Please register your account with the <b>/war</b> command.", parse_mode=ParseMode.HTML)
         if registration == True:
-            bot.send_message(chat_id=userid, text="Welcome to Age of Empires, " + username)
+            context.bot.send_message(chat_id=userid, text="Welcome to Age of Empires, " + username)
         return False
 
 def check_exist_user(path):

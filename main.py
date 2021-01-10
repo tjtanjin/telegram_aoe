@@ -5,12 +5,12 @@ from submodules import gameplay_response as gr
 import requests, os, sys, json, re
 os.chdir(os.path.realpath(sys.path[0]))
 
-#open file to read in token
-with open("./token/token.json") as token_file:
-    token_file = json.load(token_file)
-
 def main():
-    updater = Updater(token_file["token"])
+    print("Running...")
+    #open file to read in token
+    with open("./token/token.json") as token_file:
+        token = json.load(token_file)["token"]
+    updater = Updater(token, use_context=True, workers=4)
     dp = updater.dispatcher
     dp.add_handler(CommandHandler('help',ur.show_help))
     dp.add_handler(CommandHandler('war',ur.welcome_user))
@@ -28,5 +28,6 @@ def main():
     dp.add_handler(CallbackQueryHandler(gr.quit, pattern='-quit-(\S+)-(\S+)'))
     updater.start_polling()
     updater.idle()
+
 if __name__ == '__main__':
     main()
